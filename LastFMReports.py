@@ -103,7 +103,7 @@ def getUniTime(yearList,mode,regiTime):
     return [str(floatTime) for floatTime in floatTime]
 API_KEY = str(os.environ.get('LASTFM_API_KEY'))
 USER_AGENT = st.text_input("Enter Last Fm User Name")
-def getUserData(pictureOrSTime):
+def getUserData():
     headers = {"user-agent": USER_AGENT}
     url = 'http://ws.audioscrobbler.com/2.0/'
     payload = {'method':'user.getInfo'}
@@ -112,15 +112,12 @@ def getUserData(pictureOrSTime):
     payload['format'] = 'json'
     response = requests.get(url,headers=headers, params=payload)
     data = response.json()
-        
-    if pictureOrSTime == 'picture':
-        return data['user']['image'][2]['#text']
-    else:
-        timestamp = data['user']['registered']['#text']
-        datetime = dt.fromtimestamp(timestamp)
-        return datetime
+    st.write(data)
+    timestamp = data['user']['registered']['#text']
+    datetime = dt.fromtimestamp(timestamp)
+    return datetime
 if USER_AGENT != "":
-    regiDT = getUserData('STime')
+    regiDT = getUserData()
     yearRegistered = int(str(regiDT)[:4])
     countYear = yearRegistered
     today = dt.today()
