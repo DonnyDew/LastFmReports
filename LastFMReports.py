@@ -112,7 +112,6 @@ def getUserData():
     payload['format'] = 'json'
     response = requests.get(url,headers=headers, params=payload)
     data = response.json()
-    st.write(data)
     timestamp = data['user']['registered']['#text']
     datetime = dt.fromtimestamp(timestamp)
     return datetime
