@@ -134,15 +134,18 @@ def getArtistDiscovery(artist):
     trackData = lastfm_weeklyChart(timeList,'user.getWeeklyTrackChart')
     totalSongs = len(trackData['weeklytrackchart']['track'])    
     SongList = []
-    
     SongFreqList = []
+    totalPlays = 0
     for i in range(0,totalSongs):
         if trackData['weeklytrackchart']['track'][i]['artist']['#text'] == artist:
             SongList.append(trackData['weeklytrackchart']['track'][i]['name'])
-            SongFreqList.append(int(trackData['weeklytrackchart']['track'][i]['playcount']))
+            playCount = int(trackData['weeklytrackchart']['track'][i]['playcount'])
+            SongFreqList.append(playCount)
+            totalPlays += playCount
     TData = {'Song Name' : SongList,'PlayCount':SongFreqList}
     td = pd.DataFrame(data=TData)
     td.index = np.arange(1,len(td)+1)
+    st.write(playCount)
     return td
 def getArtList():
     artistData = lastfm_weeklyChart(timeList,'user.getWeeklyArtistChart')
@@ -156,8 +159,19 @@ def getArtList():
         else:
             break
     return artistList  
-
-
+def getAlbums(artist):
+    albumData = lastfm_weeklyChart(timeList,'user.getWeeklyAlbumChart')
+    totalAlbums = len(albumData['weeklyalbumchart']['album'])
+    alAlbumList = []
+    albumFreqList = []
+    for i in range(0,totalAlbums):
+        if albumData['weeklyalbumchart']['album'][i]['artist']['#text'] == artist:
+            alAlbumList.append(albumData['weeklyalbumchart']['album'][i]['name'])
+            albumFreqList.append(albumData['weeklyalbumchart']['album'][i]['playcount'])
+    alData = {"Album Name":alAlbumList,"Freq":albumFreqList}
+    al = pd.DataFrame(data=alData)
+    al.index = np.arange(1,len(al)+1)
+    return al
 if USER_AGENT != "":
     regiDT = getUserData('STime')
     yearRegistered = int(str(regiDT)[:4])
@@ -194,3 +208,7 @@ if continue_button == True:
     with header:
         st.header(f"{artist} Discovery")
         st.dataframe(getArtistDiscovery(artist))
+    albumCont = st.beta_container()
+    with albumCont:
+        st.header("Album Breakdown")
+        st.write(getAlbums(artist))

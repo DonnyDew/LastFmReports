@@ -123,9 +123,10 @@ if USER_AGENT != "":
     dateM = str(dt(today.year, today.month, 1))
     year = int(dateM[0:4])
     yearList = []
-    while year >= countYear:
+    while year > countYear:
         yearList.append(countYear)
         countYear += 1
+    yearList.reverse()
     st.write("Mode 1: Monthly Report")
     st.write("Mode 2: Yearly Report")
     st.write("Mode 3: All Time")
