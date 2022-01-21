@@ -63,37 +63,37 @@ def monthConvert(monthStr,year):
         daysInMonth = 0
     return [month,daysInMonth]
 def getUniTime(yearList,mode,regiTime):
-    if mode == "1a":
+    if mode == "Current Month":
         today = dt.today()
         dateM = str(dt(today.year, today.month, 1))
         month = int(dateM[5:7])
         year = int(dateM[0:4])
         timeStart = time.mktime(datetime.datetime(year,month,1,0,0,0).timetuple())
         timeEnd = time.time()
-    elif mode == "1b":
+    elif mode == "Previous Month":
         year = int(st.selectbox("Enter year ",yearList))
         monthStr = st.selectbox("Enter month",["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"])
         monthDayList = monthConvert(monthStr,year)
         timeStart = time.mktime(datetime.datetime(year,monthDayList[0],1,0,0,0).timetuple())
         timeEnd = time.mktime(datetime.datetime(year,monthDayList[0],monthDayList[1],23,59,59).timetuple())
-    elif mode == "2a":
+    elif mode == "Current Year":
         today = dt.today()
         dateM = str(dt(today.year, today.month, 1))
         year = int(dateM[0:4])
         timeStart = time.mktime(datetime.datetime(year,1,1,0,0,0).timetuple())
         timeEnd = time.time()
-    elif mode == "2b":
+    elif mode == "Previous Year":
         if len(yearList) == 0:
             st.write("No data from previous years... displaying current year")
-            mode = "2a"
+            mode = "Current Year"
         else:
             year = st.selectbox("Enter year",yearList)
             timeStart = time.mktime(datetime.datetime(year,1,1,0,0,0).timetuple())
             timeEnd = time.mktime(datetime.datetime(year,12,31,23,59,59).timetuple())
-    elif mode == "3":
+    elif mode == "All Time":
         timeStart = time.mktime(regiTime.timetuple())
         timeEnd = time.time()
-    elif mode == "4":
+    elif mode == "Custom":
         timeStart = time.mktime(st.date_input("Start Date").timetuple())
         timeEnd = time.mktime(st.date_input("End Date").timetuple())
     
@@ -127,19 +127,19 @@ if USER_AGENT != "":
         yearList.append(countYear)
         countYear += 1
     yearList.reverse()
-    st.write("Mode 1: Monthly Report")
-    st.write("Mode 2: Yearly Report")
-    st.write("Mode 3: All Time")
-    st.write("Mode 4: Custom")    
-    mode = st.selectbox("Choose mode 1-4",["1","2","3","4"])
-    if mode == "1":
-        st.write("Mode 1a: Current Month")
-        st.write("Mode 1b: Previous Month")
-        mode = st.selectbox("Choose mode 1a-1b",["1a","1b"])
-    if mode == "2":
-        st.write("Mode 2a: Current Year")
-        st.write("Mode 2b: Previous Year")
-        mode = st.selectbox("Choose mode 2a-2b",["2a","2b"])
+    st.write("Mode: Monthly Report")
+    st.write("Mode: Yearly Report")
+    st.write("Mode: All Time")
+    st.write("Mode: Custom")    
+    mode = st.selectbox("Choose mode: ",["Monthly Report","Yearly Report","All Time","Custom"])
+    if mode == "Monthly Report":
+        st.write("Mode: Current Month")
+        st.write("Mode: Previous Month")
+        mode = st.selectbox("Choose mode: ",["Current Month","Previous Month"])
+    if mode == "Yearly Report":
+        st.write("Mode: Current Year")
+        st.write("Mode: Previous Year")
+        mode = st.selectbox("Choose mode: ",["Current Year","Previous Year"])
     timeList = getUniTime(yearList,mode,regiDT)
 st.write("wait for mode option before clicking")
 continue_button = st.button("Press when ready")
@@ -529,7 +529,7 @@ if continue_button == True:
             totalTracks += int(trackData['weeklytrackchart']['track'][i]['playcount'])
         return totalTracks
     
-    if mode == "2a" or mode == "2b":
+    if mode == "Current Year" or mode == "Previous Year":
         almost_year = time.ctime(int(timeList[0]))
         year = int(almost_year[-4:])
         theMonths = ["January","February","March","April","May","June","July","August","September","October","November","December"]
