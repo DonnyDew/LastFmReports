@@ -87,7 +87,7 @@ def getUniTime(yearList,mode,regiTime):
             st.write("No data from previous years... displaying current year")
             mode = "Current Year"
         else:
-            year = st.selectbox("Enter year",yearList)
+            year = st.selectbox("Enter year",yearList[1:])
             timeStart = time.mktime(datetime.datetime(year,1,1,0,0,0).timetuple())
             timeEnd = time.mktime(datetime.datetime(year,12,31,23,59,59).timetuple())
     elif mode == "All Time":
@@ -123,7 +123,7 @@ if USER_AGENT != "":
     dateM = str(dt(today.year, today.month, 1))
     year = int(dateM[0:4])
     yearList = []
-    while year > countYear:
+    while year >= countYear:
         yearList.append(countYear)
         countYear += 1
     yearList.reverse()
