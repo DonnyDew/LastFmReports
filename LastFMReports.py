@@ -270,9 +270,9 @@ if continue_button == True:
             return [image1,image2]
         st.header("Song, Artist, & Album Data Tables")
         picol1,picol2 = st.beta_columns(2)
-        images = getImages()
-        picol1.image(images[0])
-        picol2.image(images[1])
+        #images = getImages()
+        #picol1.image(images[0])
+        #picol2.image(images[1])
         st.dataframe(trackTable)
         st.dataframe(artistTable)
         st.dataframe(albumTable)

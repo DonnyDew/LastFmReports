@@ -129,12 +129,27 @@ def lastfm_weeklyChart(timeList,method):
     payload['to'] = timeList[1]
     response = requests.get(url,headers=headers, params=payload)
     return response.json()
+def lastfm_trackGetInfo(artist,track):
+        headers = {"user-agent": USER_AGENT}
+        url = 'http://ws.audioscrobbler.com/2.0/'
+        payload = {'method' : 'track.getInfo'}
+        payload['user'] = USER_AGENT
+        payload['api_key'] = API_KEY
+        payload['format'] = 'json'
+        payload["autocorrect"] = 1
+        payload["artist"] = artist
+        payload["track"] = track
+        payload["username"] = USER_AGENT
+        response = requests.get(url,headers=headers, params=payload)
+        return response.json()
 def getArtistDiscovery(artist):
     #Tracks
+    
     trackData = lastfm_weeklyChart(timeList,'user.getWeeklyTrackChart')
     totalSongs = len(trackData['weeklytrackchart']['track'])    
     SongList = []
     SongFreqList = []
+    albumList = []
     totalPlays = 0
     for i in range(0,totalSongs):
         if trackData['weeklytrackchart']['track'][i]['artist']['#text'] == artist:
@@ -142,10 +157,15 @@ def getArtistDiscovery(artist):
             playCount = int(trackData['weeklytrackchart']['track'][i]['playcount'])
             SongFreqList.append(playCount)
             totalPlays += playCount
-    TData = {'Song Name' : SongList,'PlayCount':SongFreqList}
+            songData = lastfm_trackGetInfo(artist,trackData['weeklytrackchart']['track'][i]['name'])
+            try:
+                albumList.append(songData["track"]['album']["title"])
+            except KeyError:
+                albumList.append("Not Found")
+    TData = {'Song Name' : SongList,'PlayCount':SongFreqList,"Album":albumList}
     td = pd.DataFrame(data=TData)
     td.index = np.arange(1,len(td)+1)
-    st.write(playCount)
+    st.subheader(f"You have listned to {artist} {totalPlays} times")
     return td
 def getArtList():
     artistData = lastfm_weeklyChart(timeList,'user.getWeeklyArtistChart')
@@ -172,6 +192,7 @@ def getAlbums(artist):
     al = pd.DataFrame(data=alData)
     al.index = np.arange(1,len(al)+1)
     return al
+
 if USER_AGENT != "":
     regiDT = getUserData('STime')
     yearRegistered = int(str(regiDT)[:4])
