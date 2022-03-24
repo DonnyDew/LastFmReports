@@ -250,29 +250,34 @@ if continue_button == True:
             data = lastfm_trackGetInfo(trackTable["Artist"][num],trackTable["Song Name"][num])
             picUrl = data["track"]['album']['image'][3]["#text"]
             return picUrl
+    
         def getImages():
+            picCount = 0 #this variable will stop program from infintely searching for picture
             image1 = ""
             count = 1
-            while len(image1) < 1 :
+            while len(image1) < 1 and picCount < 10 :
                 try:
                     image1 = getpicUrl(count)
                     count += 1
                 except KeyError:
                     image1 = ""
                     count += 1
+                picCount += 1
+            picCount = 0
             image2 = ""
-            while len(image2) < 1:
+            while len(image2) < 1 and picCount < 10:
                 try:
                     image2 = getpicUrl(count)
                 except KeyError:
                     image2 = ""
                     count += 1
+                picCount += 1
             return [image1,image2]
         st.header("Song, Artist, & Album Data Tables")
         picol1,picol2 = st.beta_columns(2)
-        #images = getImages()
-        #picol1.image(images[0])
-        #picol2.image(images[1])
+        images = getImages()
+        picol1.image(images[0])
+        picol2.image(images[1])
         st.dataframe(trackTable)
         st.dataframe(artistTable)
         st.dataframe(albumTable)
