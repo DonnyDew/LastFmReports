@@ -279,7 +279,7 @@ if continue_button == True:
             images = getImages()
             picol1.image(images[0])
             picol2.image(images[1])
-        except KeyError:
+        except FileNotFoundError:
             st.write("Pictures Not Found")
         st.dataframe(trackTable)
         st.dataframe(artistTable)
