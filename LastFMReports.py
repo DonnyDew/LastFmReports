@@ -155,7 +155,7 @@ def getUserPic():
 
 if continue_button == True:
     st.write("Loading . . .")
-    header = st.beta_container()
+    header = st.container()
     with header:
         st.title(f"Welcome {USER_AGENT} to your Song Report")
         try:
@@ -182,7 +182,7 @@ if continue_button == True:
         response = requests.get(url,headers=headers, params=payload)
         return response.json()
     
-    openingData = st.beta_container()
+    openingData = st.container()
     with openingData:
         def lastfm_weeklyChart(timeList,method):
             headers = {"user-agent": USER_AGENT}
@@ -274,7 +274,7 @@ if continue_button == True:
                 picCount += 1
             return [image1,image2]
         st.header("Song, Artist, & Album Data Tables")
-        picol1,picol2 = st.beta_columns(2)
+        picol1,picol2 = st.columns(2)
         try:
             images = getImages()
             picol1.image(images[0])
@@ -285,7 +285,7 @@ if continue_button == True:
         st.dataframe(artistTable)
         st.dataframe(albumTable)
 #########################################################################################################        
-    genreCont = st.beta_container()
+    genreCont = st.container()
     with genreCont:
         def lastfm_artistGetTag(artist):
             headers = {"user-agent": USER_AGENT}
@@ -334,7 +334,7 @@ if continue_button == True:
         st.header("Genre Pie Chart")
         st.write(genrePie)
 ####################################################################################################################        
-    popCont = st.beta_container()
+    popCont = st.container()
     def getTrackInfo(track,artist):
         headers = {"user-agent": USER_AGENT}
         url = 'http://ws.audioscrobbler.com/2.0/'
@@ -442,7 +442,7 @@ if continue_button == True:
         recMatch2.append(format(recDic[k]["Match"],".0%"))
     recData = {"Track":recTrack2,"Artist":recArtist2,"Match %":recMatch2}
     rec = pd.DataFrame(recData)
-    recCont = st.beta_container()
+    recCont = st.container()
     with recCont:
         st.subheader("Song reccomendations:")
         st.dataframe(rec)
@@ -460,7 +460,7 @@ if continue_button == True:
         ad = pd.DataFrame(artDiscData)
         ad.index = np.arange(1,len(ad)+1)
         return ad
-    artDiscCont = st.beta_container()
+    artDiscCont = st.container()
     with artDiscCont:
         bestArtist = artistTable["Artist Name"][1]
         st.header(f"{bestArtist} Discovery")
@@ -593,7 +593,7 @@ if continue_button == True:
         TopArtistData = getTopArtist()
         topAData = {"Artist":TopArtistData[0],"Freq":TopArtistData[1]}
         ta = pd.DataFrame(data=topAData,index=[1,2,3,4,5,6,7,8,9,10,11,12])
-        topStuffCont = st.beta_container()
+        topStuffCont = st.container()
         with topStuffCont:
             st.subheader("Tracks played per month")
             st.bar_chart(ts)
@@ -603,22 +603,22 @@ if continue_button == True:
             st.dataframe(ta)
             st.subheader("Top Songs Freq per month")
             st.bar_chart(tps2)
-        JanuaryData = st.beta_container()
-        FebruaryData = st.beta_container()
-        MarchData = st.beta_container()
-        AprilData = st.beta_container()
-        MayData = st.beta_container()
-        JuneData = st.beta_container()
-        JulyData = st.beta_container()
-        AugustData = st.beta_container()
-        SeptemberData = st.beta_container()
-        OctoberData = st.beta_container()
-        NovemberData = st.beta_container()
-        DecemberData = st.beta_container()
+        JanuaryData = st.container()
+        FebruaryData = st.container()
+        MarchData = st.container()
+        AprilData = st.container()
+        MayData = st.container()
+        JuneData = st.container()
+        JulyData = st.container()
+        AugustData = st.container()
+        SeptemberData = st.container()
+        OctoberData = st.container()
+        NovemberData = st.container()
+        DecemberData = st.container()
         with JanuaryData:
             st.header("January Data")
             st.dataframe(janTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(janTables[1])
             tabcol2.dataframe(janTables[2])
             st.write(f"Total songs played in month: {totalSongsList[0]}")
@@ -626,7 +626,7 @@ if continue_button == True:
         with FebruaryData:
             st.header("February Data")
             st.dataframe(febTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(febTables[1])
             tabcol2.dataframe(febTables[2])
             st.write(f"Total songs played in month: {totalSongsList[1]}")
@@ -634,7 +634,7 @@ if continue_button == True:
         with MarchData:
             st.header("March Data")
             st.dataframe(marTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(marTables[1])
             tabcol2.dataframe(marTables[2])
             st.write(f"Total songs played in month: {totalSongsList[2]}")
@@ -642,7 +642,7 @@ if continue_button == True:
         with AprilData:
             st.header("April Data")
             st.dataframe(aprTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(aprTables[1])
             tabcol2.dataframe(aprTables[2])
             st.write(f"Total songs played in month: {totalSongsList[3]}")
@@ -650,7 +650,7 @@ if continue_button == True:
         with MayData:
             st.header("May Data")
             st.dataframe(mayTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(mayTables[1])
             tabcol2.dataframe(mayTables[2])
             st.write(f"Total songs played in month: {totalSongsList[4]}")
@@ -658,7 +658,7 @@ if continue_button == True:
         with JuneData:
             st.header("June Data")
             st.dataframe(junTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(junTables[1])
             tabcol2.dataframe(junTables[2])
             st.write(f"Total songs played in month: {totalSongsList[5]}")
@@ -666,7 +666,7 @@ if continue_button == True:
         with JulyData:
             st.header("July Data")
             st.dataframe(julTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(julTables[1])
             tabcol2.dataframe(julTables[2])
             st.write(f"Total songs played in month: {totalSongsList[6]}")
@@ -674,7 +674,7 @@ if continue_button == True:
         with AugustData:
             st.header("August Data")
             st.dataframe(augTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(augTables[1])
             tabcol2.dataframe(augTables[2])
             st.write(f"Total songs played in month: {totalSongsList[7]}")
@@ -682,7 +682,7 @@ if continue_button == True:
         with SeptemberData:
             st.header("September Data")
             st.dataframe(sepTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(sepTables[1])
             tabcol2.dataframe(sepTables[2])
             st.write(f"Total songs played in month: {totalSongsList[8]}")
@@ -690,7 +690,7 @@ if continue_button == True:
         with OctoberData:
             st.header("October Data")
             st.dataframe(octTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(octTables[1])
             tabcol2.dataframe(octTables[2])
             st.write(f"Total songs played in month: {totalSongsList[9]}")
@@ -698,7 +698,7 @@ if continue_button == True:
         with NovemberData:
             st.header("November Data")
             st.dataframe(novTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(novTables[1])
             tabcol2.dataframe(novTables[2])
             st.write(f"Total songs played in month: {totalSongsList[10]}")
@@ -706,7 +706,7 @@ if continue_button == True:
         with DecemberData:
             st.header("December Data")
             st.dataframe(decTables[0])
-            tabcol1,tabcol2 = st.beta_columns(2)
+            tabcol1,tabcol2 = st.columns(2)
             tabcol1.dataframe(decTables[1])
             tabcol2.dataframe(decTables[2])
             st.write(f"Total songs played in month: {totalSongsList[11]}")
